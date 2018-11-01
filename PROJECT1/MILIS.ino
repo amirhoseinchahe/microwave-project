@@ -1,49 +1,66 @@
-void MILIS (int ){
+/*
+ * milis is a state recognizing timer
+ * it allows the user to paus, unpause and reset the timer during the progress
+ */
+
+void MILIS () {
+  start_stop_trigger = 0;
   while(1){
-  if(Serial.available()){
-    p=Serial.parseInt();
-    Serial.flush();
-  
-   if(p==3){
-     Serial.println("PAUSE");
-     t=t+y-millis()/1000;
-     Serial.print("TIME REMAINING:");
-     Serial.println(t);
-     p=0;
-    while(1){
-     if(Serial.available()){
-       p=Serial.parseInt();
-       Serial.flush();
-     }  
-     if(p==3){
-       Serial.println("START");
-       p=0;
-       break;
+/*************************************************
+this part is when the timer is running 
+**************************************************/
+    if (start_stop_trigger == 0){   //timer is not paused
+unpause:
+      int initial_time = millis() / 1000;
+      while(1){
+        timer (initial_time);     //run the timer
+        int input_trigger = 0;
+        if(Serial.available()){       //check see if there is a trigger
+          input_trigger = Serial.parseInt();     //pause unpause triggering
+          Serial.flush();
         }
-      if(p==4){
-       
-       goto reset;
-        break;
+        time_display();     //show the remaining time
+        if(input_trigger == 3)
+          Reset_trigger();
+        
+        else
+          start_stop_trigger = input_trigger;  
+          
+        if(start_stop_trigger)        //if there has been a pause trigger switch to pause part
+          break;
+          
+        if(remaining_time <= 0)    //check to see if the time is over
+          break;      
       }
+    }   
+/***************************************************
+this part is when the timer is on pause 
+****************************************************/
+    if (start_stop_trigger == 1){   //pause has been triggered and the timer is no longer running
+      input_time_value = remaining_time;
+      time_display();     //show the remaining time
+      Serial.println("timer has been paused. to unpause press '0'");
+      while(1){     //wait untill they unpause it
+        int input_trigger = 1;
+        if(Serial.available()){       //check see if there is a trigger
+          input_trigger = Serial.parseInt();     //pause unpause triggering
+          Serial.flush();
+        }
+        if(input_trigger == 3){
+          Reset_trigger();
+          break;
+        }
+        else
+          start_stop_trigger = input_trigger;  
+        if(!start_stop_trigger)       //if there has been an unpause trigger switch to unpause part
+          goto unpause;
       }
     }
-   y=millis()/1000;
-   //Serial.println(y);
+/***************************************************
+this part checks to see if the time is over
+****************************************************/
+  if(remaining_time <= 0)    //check to see if the time is over
+    Serial.println("Done");
+    break; 
   }
-  
-  if(t==millis()/1000-y || p==4){
-
-    Serial.println("FINISH");
-    reset:
-    Serial.println("RESTART");
-    sp=0;
-    t=0;
-
-   // y=0; 
-    break;
-    }
-       
-  }
-  
 }
-

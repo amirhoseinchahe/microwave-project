@@ -1,29 +1,23 @@
-int KS;   //the state of keys
-float t=0; //the TIME(minute)
-int sp=0; //start and stop the task(start=1,stop=0
-int p=0;//pause and start during the task
-float y;//time measure
+/*
+ * here you can setput the universal variables and Serial configuration
+ * the loop consists of 2 main functions
+ * switch wich gets the time from the user
+ * milis which start the progress
+ */
+
+int input_time_value = 0;    //the time(minute)
+int remaining_time = 0;    //remaining time
+bool start_stop_trigger = 0;   //start and stop the task(stop=1, start=0)
 void setup() {
   Serial.begin(9600);
-  Serial.println("WELCOM!,SET THE TIME:");
+  Serial.println("setting up......");
+  Serial.setTimeout(5);
+  delay(500);
 }
 
 void loop() {
-  if(Serial.available()){
-    KS=Serial.parseInt();
-    Serial.flush();
-   
-    SWITCH(KS);//set time 
-    //reset:
-      // Serial.println("reset");
-    if(sp) MILIS(t);//timing ,sart and pause the task
-   
-      // Serial.print("duration:");
-    //Serial.println(millis()/1000);
-    Serial.println("BOX BOX .co");
-    //sp=0;
-   // t=0;
-    }
-    KS=0;//return to initial state
-    Serial.flush();
+  SWITCH();
+  progress_stat();
+  MILIS();
+  input_time_value = 0;
 }
