@@ -10,6 +10,7 @@ void MILIS2 () {
   int start_pause_time = 0; // when pause starts in seconds
   int end_pause_time = 0; // when pause ends in seconds
 
+  
   while (1) {
     //  Serial.println("while1");
     if (start_stop_trigger == 0) { //  unpause/start the program
