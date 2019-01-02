@@ -79,6 +79,7 @@ case btnRIGHT:
 {
 //lcd.setCursor(1,0);  
 lcd.print("RIGHT");
+input_trigger = 3;
 ///*if(state)*/input_trigger=1;//pause the porogress
 //else input_trigger=0;//unpause the progress
 //state=!state;

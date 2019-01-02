@@ -24,9 +24,12 @@ int input_trigger = 0;//used in MILIS & key_read for input keys
 int input_time_value = 0;    //the time(minute)
 int remaining_time = 0;    //remaining time
 bool start_stop_trigger = 0;   //start and stop the task(stop=1, start=0)
+bool rel=0;  //Relay ON or OFF
 
 void setup() {
   lcd.begin(16, 2);//LCD setup
+  pinMode(12 , OUTPUT);//BUZZER 
+  pinMode(13 , OUTPUT);//RELAY
   //pinMode(3,INPUT);
   //pinMode(5,INPUT);
   //pinMode(7,INPUT);

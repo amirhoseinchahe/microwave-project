@@ -22,9 +22,11 @@ unpause:
         
        key_read();
         delay(200);
-        time_display();     //show the remaining time
+        time_display(remaining_time);     //show the remaining time
         lcd.setCursor(0,1);
         lcd.print("Running   ");
+        rel=1;//RELAY
+        Relay();//RELAY
         if(input_trigger == 3)
           Reset_trigger();
 
@@ -43,9 +45,11 @@ this part is when the timer is on pause
 ****************************************************/
     if (start_stop_trigger == 1){   //pause has been triggered and the timer is no longer running
       input_time_value = remaining_time;
-      time_display();     //show the remaining time
+      time_display(remaining_time);     //show the remaining time
       lcd.setCursor(0,1);
-      lcd.print("timer paused");//. to unpause press '0'");
+      lcd.print("timer paused     ");//. to unpause press '0'");
+      rel=0;//RELAY
+      Relay();//RELAY
       while(1){     //wait untill they unpause it
        // int input_trigger = 1;
         /*if(Serial.available()){       //check see if there is a trigger
@@ -69,8 +73,15 @@ this part is when the timer is on pause
 this part checks to see if the time is over
 ****************************************************/
   if(remaining_time <= 0)    //check to see if the time is over
+  lcd.setCursor(0,0);
+  lcd.print("               ");
   lcd.setCursor(10,1);
+    rel=0;//RELAY
+    Relay();//RELAY
+    tone(12 , 370 ,2000);//Sound ON
     lcd.print("Done");
+    delay(5000);
+    lcd.clear();
     break; 
   }
 }
