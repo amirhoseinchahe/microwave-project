@@ -1,27 +1,16 @@
 /*
-   it displays the remaining time
-*/
-void time_display(int zaman) {   //  zaman is based on second
-  /* int  hour = remaining_time / 3600;
-    int extrasec = remaining_time % 3600;
-    int minute = extrasec / 60;
-    int second = extrasec % 60;
-    Serial.print("remaining time: ");
-    Serial.print(hour);
-    Serial.print(':');
-    Serial.print(minute);
-    Serial.print(':');
-    Serial.print(second);
-    }
-  */
-  int hour = zaman / 3600;
-  int extrasec = zaman % 3600;
-  int minute = extrasec / 60;
-  int second = extrasec % 60;
-  Serial.print("remaining time: ");
-  Serial.print(hour);
-  Serial.print(':');
-  Serial.print(minute);
-  Serial.print(':');
-  Serial.println(second);
+ * it displays the remaining time
+ */
+void time_display(int show_time){
+  lcd.setCursor(0,0);
+  lcd.print("remaining time:");
+ //lcd.setCursor(14,1);
+ //lcd.print(60*(remaining_time));
+ //lcd.print(millis()/1000);
+ lcd.setCursor(9,1);
+  lcd.print(" ");
+  lcd.print(show_time/60);
+  lcd.print(" :");
+  lcd.print(show_time %60);
+  lcd.print("  ");
 }
